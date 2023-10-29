@@ -13,7 +13,7 @@
     <title>MultiplicationTable</title>
 </head>
 <body>
-<c:if test="${message == null}">
+<c:if test="${error == null}">
     <h3>Multiple Table::</h3>
     <hr>
     <table style="width: 20%">
@@ -21,7 +21,18 @@
             <td colspan="5" style="background-color: cadetblue">MT for ${param.number}</td>
         </tr>
         <c:forEach begin = "1" end="12" var="n">
-            <tr>
+            <c:choose>
+                <c:when test="${n%3==1}">
+                    <c:set var="bg" scope="page" value="white"/>
+                </c:when>
+                <c:when test="${n%3==2}">
+                    <c:set var="bg" scope="page" value="Lightgrey"/>
+                </c:when>
+                <c:otherwise>
+                    <c:set var="bg" scope="page" value="grey"/>
+                </c:otherwise>
+            </c:choose>
+            <tr style="background-color: ${bg}">
                 <td class="number"> ${param.number} </td>
                 <td> x </td>
                 <td class = "number">${n} </td>
@@ -34,7 +45,7 @@
 <c:if test = "${error != null}">
     <h3 style="color : red">
         Error : ${requestScope.error}
-        (${param.number != null || param.number == "" ? "Null/Empty" : param.number}
+        (${param.number != null || param.number == "" ? param.number : "Null/Empty"})
     </h3>
 </c:if>
 <hr>
